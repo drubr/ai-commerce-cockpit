@@ -4,11 +4,11 @@ import Image from "next/image";
 export function Brand({ className }: { className?: string }) {
   return (
     <Image
-      src="/trodat_logo_de.png"
+      src="/mediawave-logo.png"
       width={256}
       height={256}
-      alt="Trodat Logo DE"
-      className={cn(className)}
+      alt="mediawave logo"
+      className={cn("max-h-11 shrink-0 object-contain", className)}
     />
   );
 }

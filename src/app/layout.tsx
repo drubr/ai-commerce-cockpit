@@ -5,9 +5,11 @@ import "@fontsource/source-sans-pro/latin-700.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: { default: "Trodat · Punchout", template: "%s · Trodat" },
-  description:
-    "Your catalog, connected. Manage your Trodat punchout workspace.",
+  title: {
+    default: "mediawave · Commerce Cockpit",
+    template: "%s · Commerce Cockpit",
+  },
+  description: "Your catalog, connected. Manage your commerce workspace.",
 };
 
 export default function RootLayout({

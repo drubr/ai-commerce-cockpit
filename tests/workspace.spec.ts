@@ -66,9 +66,16 @@ test("login, mapping persistence, validation, and logout", async ({ page }) => {
     await page
       .locator("#main-content")
       .evaluate((el) => el.getBoundingClientRect().width),
-  ).toBeLessThanOrEqual(768);
+  ).toBeLessThanOrEqual(1280);
+  await expect(
+    page.getByText("Session activity", { exact: true }),
+  ).toBeVisible();
+  await expect(page.locator("[data-chart] .recharts-surface")).toHaveCount(2);
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBeLessThanOrEqual(1280);
   await page.screenshot({ path: "test-results/dashboard.png", fullPage: true });
-  await page.getByRole("link", { name: "Field Mapping", exact: true }).click();
+  await page.getByRole("link", { name: "Integrationen", exact: true }).click();
   await expect(page).toHaveURL("/dashboard/field-mapping");
   await page
     .getByRole("combobox", { name: "Target for Product image" })
@@ -110,8 +117,16 @@ test("mobile navigation and layout", async ({ page }) => {
   await page.getByRole("button", { name: "Sign in to workspace" }).click();
   await verifyOtp(page);
   await expect(page).toHaveURL("/dashboard");
+  await expect(page.locator("[data-chart] .recharts-surface")).toHaveCount(2);
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBeLessThanOrEqual(390);
+  await page.screenshot({
+    path: "test-results/dashboard-mobile.png",
+    fullPage: true,
+  });
   await page.getByRole("button", { name: "Toggle Sidebar" }).click();
-  await page.getByRole("link", { name: "Field Mapping", exact: true }).click();
+  await page.getByRole("link", { name: "Integrationen", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Field Mapping", exact: true }),
   ).toBeVisible();

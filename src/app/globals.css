@@ -5,7 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --background-image-page-gradient: linear-gradient(#f6f6f6, #fff 30%);
+  --background-image-page-gradient: linear-gradient(
+    135deg,
+    #f5faff,
+    #ffffff 65%
+  );
   --text-xs: 0.875rem;
   --text-xs--line-height: 1.25rem;
   --color-background: var(--background);
@@ -52,33 +56,38 @@
 }
 
 :root {
-  --background: #f3f3f3;
-  --foreground: #000000;
+  --background: #f5f9fd;
+  --foreground: #09234b;
   --card: #ffffff;
-  --card-foreground: #000000;
+  --card-foreground: #09234b;
   --popover: #ffffff;
-  --popover-foreground: #000000;
-  --primary: #d01b22;
+  --popover-foreground: #09234b;
+  --primary: #1675d1;
   --primary-foreground: #ffffff;
-  --secondary: #e9e9e9;
-  --secondary-foreground: #000000;
-  --muted: #ededed;
-  --muted-foreground: #4c4c4c;
-  --accent: #fce8e9;
-  --accent-foreground: #d01b22;
+  --secondary: #eaf3fc;
+  --secondary-foreground: #09234b;
+  --muted: #edf4fa;
+  --muted-foreground: #607b9d;
+  --accent: #e2f2ff;
+  --accent-foreground: #1675d1;
   --destructive: #b42318;
-  --border: #dedede;
-  --input: #d5d5d5;
-  --ring: #d01b22;
+  --border: #dfebf5;
+  --input: #cfdeed;
+  --ring: #1675d1;
+  --chart-1: #3478f6;
+  --chart-2: #18bac1;
+  --chart-3: #87caff;
+  --chart-4: #183f91;
+  --chart-5: #9484f5;
   --radius: 0.625rem;
-  --sidebar: #ffffff;
-  --sidebar-foreground: #000000;
-  --sidebar-primary: #d01b22;
+  --sidebar: #172e46;
+  --sidebar-foreground: #d8e6f6;
+  --sidebar-primary: #1675d1;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f7dfe0;
-  --sidebar-accent-foreground: #d01b22;
-  --sidebar-border: #dcdcdc;
-  --sidebar-ring: #d01b22;
+  --sidebar-accent: #1c4f83;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #304b66;
+  --sidebar-ring: #1675d1;
 }
 
 @layer base {
@@ -102,7 +111,7 @@
   h6,
   [data-slot="card-title"],
   [data-slot="sheet-title"] {
-    text-transform: uppercase;
+    letter-spacing: -0.025em;
   }
 
   button:not(:disabled),
@@ -111,6 +120,6 @@
   }
 
   ::selection {
-    background: #f6cdd0;
+    background: #bfe5ff;
   }
 }

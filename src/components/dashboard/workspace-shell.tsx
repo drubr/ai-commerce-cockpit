@@ -2,7 +2,11 @@
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
-import { GitBranch, LayoutDashboard, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
+import {
+  resourceNavigation,
+  workspaceNavigation,
+} from "@/lib/workspace-navigation";
 import { Brand } from "@/components/brand";
 import type { CurrentUser } from "@/lib/current-user";
 import { authClient } from "@/lib/auth-client";
@@ -13,7 +17,6 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarInset,
   SidebarMenu,
@@ -24,34 +27,38 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-const links = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/dashboard/field-mapping", label: "Field Mapping", icon: GitBranch },
-];
-function Navigation() {
+function Navigation({
+  links,
+  label,
+}: {
+  links: typeof workspaceNavigation;
+  label: string;
+}) {
   const pathname = usePathname();
   const { setOpenMobile } = useSidebar();
   return (
-    <SidebarMenu>
-      {links.map(({ href, label, icon: Icon }) => (
-        <SidebarMenuItem key={href}>
-          <SidebarMenuButton
-            className="mb-1 h-10 gap-3 px-3"
-            isActive={pathname === href}
-            render={
-              <Link
-                href={href}
-                aria-current={pathname === href ? "page" : undefined}
-                onClick={() => setOpenMobile(false)}
-              />
-            }
-          >
-            <Icon className="size-4" />
-            <span>{label}</span>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      ))}
-    </SidebarMenu>
+    <nav aria-label={label}>
+      <SidebarMenu className="gap-2.5">
+        {links.map(({ href, label, icon: Icon }) => (
+          <SidebarMenuItem key={href}>
+            <SidebarMenuButton
+              className="h-11 gap-4 rounded-md px-3 text-sm [&>svg]:size-5"
+              isActive={pathname === href}
+              render={
+                <Link
+                  href={href}
+                  aria-current={pathname === href ? "page" : undefined}
+                  onClick={() => setOpenMobile(false)}
+                />
+              }
+            >
+              <Icon className="size-4" />
+              <span>{label}</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        ))}
+      </SidebarMenu>
+    </nav>
   );
 }
 export function WorkspaceShell({
@@ -85,7 +92,7 @@ export function WorkspaceShell({
   return (
     <TooltipProvider>
       <SidebarProvider
-        style={{ "--sidebar-width": "15rem" } as React.CSSProperties}
+        style={{ "--sidebar-width": "13rem" } as React.CSSProperties}
       >
         <a
           href="#main-content"
@@ -94,26 +101,29 @@ export function WorkspaceShell({
           Skip to content
         </a>
         <Sidebar>
-          <SidebarHeader className="p-6">
-            <Brand />
+          <SidebarHeader className="px-5 pt-6 pb-7">
+            <Brand className="h-auto w-full brightness-0 invert" />
           </SidebarHeader>
           <SidebarContent>
-            <SidebarGroup className="px-4">
-              <SidebarGroupLabel className="mb-2 px-3 text-sm tracking-widest uppercase">
-                Workspace
-              </SidebarGroupLabel>
-              <Navigation />
+            <SidebarGroup className="px-3">
+              <Navigation links={workspaceNavigation} label="Hauptnavigation" />
             </SidebarGroup>
           </SidebarContent>
-          <SidebarFooter className="gap-5 p-4">
-            <div className="flex items-center gap-2.5 border-t pt-4">
+          <SidebarFooter className="gap-5 px-3 pb-4">
+            <div className="mx-2 border-t border-sidebar-border pt-4">
+              <Navigation
+                links={resourceNavigation}
+                label="Hilfe und Ressourcen"
+              />
+            </div>
+            <div className="flex items-center gap-2.5 border-t border-sidebar-border pt-4">
               <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-foreground text-sm font-medium text-white">
                 {user.initials}
               </span>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold">{user.name}</p>
                 <p
-                  className="mt-1 truncate text-sm text-muted-foreground"
+                  className="mt-1 truncate text-sm text-sidebar-foreground/70"
                   title={user.email}
                 >
                   {user.email}
@@ -128,6 +138,13 @@ export function WorkspaceShell({
               >
                 <LogOut className="size-4" />
               </Button>
+            </div>
+            <div className="px-2 pt-2">
+              <p className="mt-2 text-sm leading-tight text-sidebar-foreground">
+                Commerce.
+                <br />
+                Simplified.
+              </p>
             </div>
             {error && (
               <p role="alert" className="text-sm text-destructive">
@@ -149,7 +166,9 @@ export function WorkspaceShell({
               <span className="text-muted-foreground">Workspace</span>
               <span className="text-muted-foreground">/</span>
               <span>
-                {pathname === "/dashboard" ? "Dashboard" : "Field Mapping"}
+                {[...workspaceNavigation, ...resourceNavigation].find(
+                  (item) => item.href === pathname,
+                )?.label ?? "Workspace"}
               </span>
             </div>
             <span className="rounded-full border px-2.5 py-1 text-sm font-medium tracking-wide uppercase">
@@ -158,11 +177,11 @@ export function WorkspaceShell({
           </header>
           <main
             id="main-content"
-            className="mx-auto w-full max-w-3xl px-5 py-9 sm:px-8"
+            className="mx-auto w-full max-w-7xl px-5 py-9 sm:px-8"
           >
             {children}
           </main>
-          <footer className="mx-auto mt-auto flex w-full max-w-3xl flex-wrap justify-between gap-3 px-5 py-6 text-sm text-muted-foreground sm:px-8">
+          <footer className="mx-auto mt-auto flex w-full max-w-7xl flex-wrap justify-between gap-3 px-5 py-6 text-sm text-muted-foreground sm:px-8">
             <span>Trodat Punchout</span>
             <span>Workspace overview · Demo data</span>
           </footer>

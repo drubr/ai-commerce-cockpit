@@ -1,9 +1,14 @@
 import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "./tests",
+  testIgnore: "**/unit/**",
   fullyParallel: false,
   workers: 1,
-  use: { baseURL: "http://localhost:3100", trace: "retain-on-failure" },
+  use: {
+    baseURL: "http://localhost:3100",
+    trace: "retain-on-failure",
+    httpCredentials: { username: "admin", password: "commerce-cockpit" },
+  },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
     command: "npm run start -- --port 3100",

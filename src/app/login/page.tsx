@@ -19,21 +19,18 @@ export default async function LoginPage() {
       <div className="mx-auto grid w-full max-w-6xl flex-1 items-center gap-16 px-6 py-12 lg:px-12">
         <section className="mx-auto w-full max-w-sm">
           <div className="mb-8">
-            <h1 className="text-center text-sm font-medium text-muted-foreground">
-              Welcome to Trodat
+            <h1 className="mt-3 mb-2 text-center text-3xl font-semibold tracking-tight">
+              Good to have you back.
             </h1>
-            <h2 className="mt-3 mb-2 text-center text-3xl font-semibold tracking-tight">
-              Good to have you back
-            </h2>
-            <p className="text-center">
-              Sign in to manage your punchout workspace.
-            </p>
+            <p className="text-center">Sign in to manage your workspace.</p>
           </div>
           <LoginForm />
         </section>
       </div>
       <footer className="flex flex-wrap justify-between gap-4 border-t px-6 py-5 text-sm text-muted-foreground lg:px-12">
-        <span>© {new Date().getFullYear()} Trodat. All rights reserved.</span>
+        <span>
+          © {new Date().getFullYear()} mediawave AI. All rights reserved.
+        </span>
         <span>Made for better connections.</span>
       </footer>
     </main>

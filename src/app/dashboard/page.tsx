@@ -8,6 +8,8 @@ import {
   GitBranch,
   Check,
   Clock3,
+  ShoppingCart,
+  TrendingUp,
 } from "lucide-react";
 import { getCurrentUser } from "@/lib/current-user";
 import { PageHeading } from "@/components/dashboard/page-heading";
@@ -22,24 +24,35 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui/table";
+import { DashboardCharts } from "@/components/dashboard/dashboard-charts";
 export const metadata = { title: "Dashboard" };
 const metrics = [
+  {
+    label: "Punchout revenue",
+    value: "€124,000",
+    note: "vs. previous 30 days",
+    change: "+28%",
+    icon: ShoppingCart,
+  },
   {
     label: "Active connections",
     value: "3",
     note: "All connections operational",
+    change: "All healthy",
     icon: Link2,
   },
   {
     label: "Catalog products",
     value: "1,284",
     note: "Across your connected catalog",
+    change: "+12.4%",
     icon: Package,
   },
   {
     label: "Successful sessions",
     value: "99.8%",
     note: "Over the last 30 days",
+    change: "+0.6 pts",
     icon: Activity,
   },
 ];
@@ -47,22 +60,36 @@ export default async function DashboardPage() {
   const user = await getCurrentUser();
   return (
     <>
-      <PageHeading
-        eyebrow="Your workspace at a glance"
-        title={`Good to see you, ${user.firstName}.`}
-        description="Here’s what’s happening across your punchout workspace."
-      />
-      <div className="mb-6 grid gap-3 sm:grid-cols-3">
-        {metrics.map(({ label, value, note, icon: Icon }) => (
+      <div className="mb-6 rounded-xl border bg-gradient-to-r from-blue-100/80 via-sky-50 to-background p-6 [&>div]:mb-0">
+        <PageHeading
+          eyebrow="Your workspace at a glance"
+          title={`Good to see you, ${user.firstName}.`}
+          description="Here’s what’s happening across your punchout workspace."
+        />
+      </div>
+      <div className="mb-3 flex items-center justify-between text-sm text-muted-foreground">
+        <span>Performance overview</span>
+        <span>Last 30 days · Sample data</span>
+      </div>
+      <div className="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {metrics.map(({ label, value, note, change, icon: Icon }) => (
           <Card key={label} className="gap-0 py-0 shadow-none">
             <CardContent className="p-4">
               <div className="flex items-center justify-between gap-2 text-sm text-muted-foreground">
                 {label}
-                <Icon className="size-3.5" />
+                <span className="rounded-xl bg-accent p-2.5 text-primary">
+                  <Icon className="size-5" />
+                </span>
               </div>
-              <p className="mt-4 text-3xl font-semibold tracking-tight">
-                {value}
-              </p>
+              <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1">
+                <p className="text-3xl font-semibold tracking-tight tabular-nums">
+                  {value}
+                </p>
+                <span className="flex items-center gap-1 text-sm font-semibold text-emerald-700">
+                  <TrendingUp className="size-3.5" />
+                  {change}
+                </span>
+              </div>
               <p className="mt-2 text-sm leading-4 text-muted-foreground">
                 {note}
               </p>
@@ -70,6 +97,7 @@ export default async function DashboardPage() {
           </Card>
         ))}
       </div>
+      <DashboardCharts />
       <section className="mb-7 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-primary/15 bg-accent/60 p-5">
         <div className="flex gap-3">
           <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-white text-primary">

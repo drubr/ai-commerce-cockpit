@@ -77,3 +77,16 @@ never enable it on a deployed host. Keep these files private like the database.
 Playwright uses this transport to verify the real OTP flow without sending email.
 New accounts provisioned outside the demo setup must enable OTP via
 `authClient.twoFactor.enable({ password, method: "otp" })`.
+
+### Production access protection
+
+`next start` (including `npm run start`) requires HTTP Basic Auth on all pages,
+API endpoints, and static assets. Use the production credentials supplied for
+this workspace. This server-side gate runs before the existing application
+login and does not replace it. `next dev` does not enable Basic Auth.
+Deploy behind HTTPS so credentials are encrypted in transit.
+
+Run credential validation tests with
+`node --experimental-strip-types --test tests/unit/basic-auth.test.mjs`.
+The Playwright suite includes production HTTP gate coverage and supplies Basic
+Auth credentials for the existing workspace tests.
