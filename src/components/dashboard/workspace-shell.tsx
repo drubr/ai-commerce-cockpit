@@ -92,7 +92,7 @@ export function WorkspaceShell({
   return (
     <TooltipProvider>
       <SidebarProvider
-        style={{ "--sidebar-width": "13rem" } as React.CSSProperties}
+        style={{ "--sidebar-width": "15rem" } as React.CSSProperties}
       >
         <a
           href="#main-content"

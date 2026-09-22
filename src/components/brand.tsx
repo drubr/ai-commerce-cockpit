@@ -9,6 +9,7 @@ export function Brand({ className }: { className?: string }) {
       height={256}
       alt="mediawave logo"
       className={cn("max-h-11 shrink-0 object-contain", className)}
+      draggable={false}
     />
   );
 }
